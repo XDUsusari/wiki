@@ -63,7 +63,30 @@ Cal Docker. Amb `npx supabase start` s'aixeca un Supabase local amb totes les mi
 `.env.local`, executa `npm run seed-demo` i entra amb `laia@demo.local` (admin) o `jordi@demo.local` (membre), contrasenya
 `Demo-Local-2026!`. L'script de demostració es nega a funcionar contra un Supabase que no sigui local.
 
-Desplegament recomanat: Vercel (regió `fra1`) o qualsevol servidor Node 20+.
+## Publicar a Cloudflare (Workers)
+
+El projecte ja inclou l'adaptador oficial (`@opennextjs/cloudflare`) i `wrangler.jsonc`. Ocupa ~1,5 MB comprimit, dins del
+límit del pla gratuït. La base de dades continua sent a Supabase (al núvol).
+
+1. **Supabase**: crea un projecte (regió UE), executa les migracions i, a *Authentication → URL Configuration*, posa
+   l'adreça de Cloudflare (p. ex. `https://joves-nacionalistes.EL-TEU-SUBDOMINI.workers.dev`) a *Site URL* i
+   `…/auth/confirm` a *Redirect URLs*.
+2. **Cloudflare** → *Workers & Pages* → *Create* → *Import a repository* → tria `XDUsusari/wiki` i la branca:
+   - *Root directory*: `joves-nacionalistes`
+   - *Build command*: `npx opennextjs-cloudflare build`
+   - *Deploy command*: `npx opennextjs-cloudflare deploy`
+3. Variables a *Settings → Variables and Secrets*:
+   - Com a **variables de compilació** (*Build variables*): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+     i `NEXT_PUBLIC_SITE_URL`.
+   - Com a **secret** del Worker: `SUPABASE_SERVICE_ROLE_KEY` (mai com a variable normal).
+4. Desa i torna a desplegar. Cada `git push` a la branca publicarà una versió nova.
+5. Crea el primer administrador des del teu ordinador (no cal Docker): posa les claus del Supabase del núvol i
+   `ROOT_EMAIL` a `.env.local` i executa `npm run create-root`.
+
+Alternativa per línia d'ordres: `npx wrangler login`, `npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY` i
+`npm run cf:deploy` (amb les variables `NEXT_PUBLIC_*` del núvol a `.env.local`).
+
+També es pot desplegar a Vercel o a qualsevol servidor Node 20+.
 
 ## Abans de publicar
 

@@ -19,6 +19,7 @@ export async function login(formData: FormData) {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   // Missatge genèric: no revelem si el correu existeix
+  if (error) console.error("[login] error d'autenticació:", error.status, error.code ?? "", error.message);
   if (error?.code === "email_not_confirmed") back("/login", "Encara no has confirmat el correu. Revisa la safata d'entrada.");
   if (error) back("/login", "Correu o contrasenya incorrectes.");
   redirect(safeNext(formData.get("next")));
