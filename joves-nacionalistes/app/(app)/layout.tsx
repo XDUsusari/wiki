@@ -7,7 +7,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <>
       <header className="topbar">
         <div className="container">
-          <Link href="/inici" className="brand">Joves <span>Nacionalistes</span></Link>
+          <Link href="/inici" className="brand" aria-label="Joves Nacionalistes · Inici">
+            <img src="/logo-mark.png" alt="" width={72} height={30} />
+            <span>Joves<br />Nacionalistes</span>
+          </Link>
           <nav className="nav" aria-label="Principal">
             <Link href="/inici">Inici</Link>
             <Link href="/noticies">Notícies</Link>

@@ -1,10 +1,10 @@
 // Service worker mínim: només desa la pàgina «sense connexió».
 // No es desa a la memòria cau cap pàgina autenticada (privacitat dels membres).
-const CACHE = "jn-v1";
+const CACHE = "jn-v2";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE).then((c) => c.addAll([OFFLINE_URL, "/icon.svg"])));
+  event.waitUntil(caches.open(CACHE).then((c) => c.addAll([OFFLINE_URL, "/logo.png"])));
   self.skipWaiting();
 });
 

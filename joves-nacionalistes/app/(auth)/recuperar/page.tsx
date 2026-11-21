@@ -8,7 +8,8 @@ export default async function RecoverPage({ searchParams }: { searchParams: Sear
   const { error, ok } = await readAlerts(searchParams);
   return (
     <main className="container narrow">
-      <h1 style={{ marginTop: 32 }}>Recuperar la contrasenya</h1>
+      <a href="/" aria-label="Inici"><img className="auth-logo" src="/logo.png" alt="Joves Nacionalistes" width={720} height={518} /></a>
+      <h1 style={{ marginTop: 16 }}>Recuperar la contrasenya</h1>
       <p className="muted">Et enviarem un enllaç per crear una contrasenya nova.</p>
       <Alerts error={error} ok={ok} />
       <form action={requestPasswordReset} className="card">

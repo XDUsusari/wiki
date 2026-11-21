@@ -14,7 +14,8 @@ export default async function SignupPage({ searchParams }: { searchParams: Searc
 
   return (
     <main className="container narrow">
-      <h1 style={{ marginTop: 32 }}>Sol·licitar accés</h1>
+      <a href="/" aria-label="Inici"><img className="auth-logo" src="/logo.png" alt="Joves Nacionalistes" width={720} height={518} /></a>
+      <h1 style={{ marginTop: 16 }}>Sol·licitar accés</h1>
       <p className="muted">Només per a majors de 18 anys. Un coordinador revisarà la teva sol·licitud.</p>
       <Alerts error={error} />
       <form action={signup} className="card">

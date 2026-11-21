@@ -1,13 +1,17 @@
 :root {
   color-scheme: light;
-  --bg: #f6f7f9;
+  /* Colors corporatius: blau marí #002252 sobre blanc */
+  --brand: #002252;
+  --brand-hover: #0a3570;
+  --brand-tint: #e8edf5;
+  --bg: #f4f6fa;
   --surface: #ffffff;
-  --text: #14181f;
-  --muted: #5b6472;
-  --border: #dde1e7;
-  --primary: #1d3f8f;
+  --text: #0b1830;
+  --muted: #55627a;
+  --border: #d9dfe9;
+  --primary: var(--brand);
   --primary-text: #ffffff;
-  --accent: #e0a800;
+  --accent: var(--brand);
   --danger: #b42318;
   --ok: #1a7f37;
   --radius: 12px;
@@ -19,12 +23,13 @@ html, body { margin: 0; padding: 0; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-brand), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--primary); }
-h1, h2, h3 { line-height: 1.2; margin: 0 0 0.6em; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.6em; color: var(--brand); }
+h1 { font-weight: 800; letter-spacing: -0.01em; }
 h1 { font-size: 1.6rem; }
 h2 { font-size: 1.25rem; }
 
@@ -33,16 +38,18 @@ h2 { font-size: 1.25rem; }
 
 .topbar {
   position: sticky; top: 0; z-index: 10;
-  background: var(--surface); border-bottom: 1px solid var(--border);
+  background: var(--surface); border-bottom: 3px solid var(--brand);
 }
 .topbar .container { display: flex; align-items: center; gap: 16px; padding-top: 10px; padding-bottom: 10px; }
-.brand { font-weight: 800; text-decoration: none; color: var(--text); white-space: nowrap; }
-.brand span { color: var(--accent); }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--brand); white-space: nowrap; }
+.brand img { height: 30px; width: auto; display: block; }
+.brand span { font-weight: 800; font-size: 0.8rem; line-height: 1.05; text-transform: uppercase; letter-spacing: 0.02em; }
+@media (max-width: 640px) { .brand span { display: none; } }
 .nav { display: flex; gap: 4px; overflow-x: auto; flex: 1; }
 .nav a {
   text-decoration: none; color: var(--muted); padding: 6px 10px; border-radius: 8px; white-space: nowrap; font-size: 0.95rem;
 }
-.nav a:hover { background: var(--bg); color: var(--text); }
+.nav a:hover { background: var(--brand-tint); color: var(--brand); }
 
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
@@ -60,7 +67,7 @@ h2 { font-size: 1.25rem; }
   display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 999px;
   background: var(--bg); border: 1px solid var(--border); color: var(--muted);
 }
-.badge.accent { background: var(--accent); color: #1a1400; border-color: transparent; }
+.badge.accent { background: var(--brand); color: #fff; border-color: transparent; }
 
 label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
 input, select, textarea {
@@ -78,8 +85,10 @@ button, .btn {
   padding: 9px 16px; border-radius: 8px; border: 1px solid transparent;
   background: var(--primary); color: var(--primary-text);
 }
-button.secondary, .btn.secondary { background: transparent; color: var(--text); border-color: var(--border); }
-button.danger { background: var(--danger); color: #fff; }
+button:hover:not(:disabled), .btn:hover { background: var(--brand-hover); }
+button.secondary, .btn.secondary { background: transparent; color: var(--brand); border-color: var(--border); }
+button.secondary:hover, .btn.secondary:hover { background: var(--brand-tint); }
+button.danger, button.danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
 button.small { padding: 4px 10px; font-size: 0.85rem; }
 button:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -103,6 +112,9 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
 .table-wrap { overflow-x: auto; }
 
-.hero { padding: 48px 0 24px; }
-.hero h1 { font-size: 2.2rem; }
+.hero { padding: 40px 0 24px; text-align: center; }
+.hero .logo { width: min(340px, 80%); height: auto; }
+.hero .row { justify-content: center; }
+.auth-logo { display: block; margin: 32px auto 8px; width: 180px; height: auto; }
+
 .footer { padding: 24px 16px; text-align: center; }

@@ -58,7 +58,7 @@ Desplegament recomanat: Vercel (regió `fra1`) o qualsevol servidor Node 20+.
 - [ ] Configurar un SMTP propi a Supabase, perquè el de proves té un límit d'enviaments.
 - [ ] Activar la protecció contra contrasenyes filtrades i el CAPTCHA a Supabase Auth.
 - [ ] Definir l'equip de moderació i el protocol de denúncies.
-- [ ] Crear icones PNG de 192 i 512 px per a una instal·lació òptima a Android.
+- [x] Logotip i icones PNG (192, 512, maskable, Apple) generats a `public/`.
 
 ## Idees per a la versió 2
 

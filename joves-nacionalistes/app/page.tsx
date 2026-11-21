@@ -10,9 +10,10 @@ export default async function Landing() {
   return (
     <main className="container">
       <section className="hero">
-        <span className="badge accent">Intranet privada</span>
-        <h1 style={{ marginTop: 12 }}>{APP_NAME}</h1>
-        <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 560 }}>
+        <h1 style={{ margin: 0 }}>
+          <img className="logo" src="/logo.png" alt={`${APP_NAME} · Intranet`} width={720} height={518} />
+        </h1>
+        <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 560, margin: "24px auto 0" }}>
           Espai intern per a joves membres: notícies, agenda d&apos;activitats i fòrums per comarques.
           L&apos;accés requereix ser major d&apos;edat i l&apos;aprovació d&apos;un coordinador.
         </p>

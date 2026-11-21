@@ -11,7 +11,8 @@ export default async function PendingPage() {
 
   return (
     <main className="container narrow">
-      <div className="card" style={{ marginTop: 32 }}>
+      <a href="/" aria-label="Inici"><img className="auth-logo" src="/logo.png" alt="Joves Nacionalistes" width={720} height={518} /></a>
+      <div className="card" style={{ marginTop: 16 }}>
         {profile.status === "pendent" ? (
           <>
             <h1>Sol·licitud rebuda</h1>

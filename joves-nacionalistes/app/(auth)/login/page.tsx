@@ -9,7 +9,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
   const { error, ok, next } = await readAlerts(searchParams);
   return (
     <main className="container narrow">
-      <h1 style={{ marginTop: 32 }}>Entrar</h1>
+      <a href="/" aria-label="Inici"><img className="auth-logo" src="/logo.png" alt="Joves Nacionalistes" width={720} height={518} /></a>
+      <h1 style={{ marginTop: 16 }}>Entrar</h1>
       <Alerts error={error} ok={ok} />
       <form action={login} className="card">
         <input type="hidden" name="next" value={next ?? ""} />

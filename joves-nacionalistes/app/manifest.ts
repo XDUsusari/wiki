@@ -7,9 +7,13 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Intranet per a joves membres",
     start_url: "/inici",
     display: "standalone",
-    background_color: "#f6f7f9",
-    theme_color: "#1d3f8f",
+    background_color: "#ffffff",
+    theme_color: "#002252",
     lang: "ca",
-    icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }],
+    icons: [
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+    ],
   };
 }
