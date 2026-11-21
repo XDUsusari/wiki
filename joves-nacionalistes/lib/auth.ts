@@ -14,10 +14,11 @@ export type Profile = {
   role: Role;
   status: Status;
   must_change_password: boolean;
+  directory_visible: boolean;
   created_at: string;
 };
 
-export const PROFILE_COLUMNS = "id, display_name, comarca, bio, role, status, must_change_password, created_at";
+export const PROFILE_COLUMNS = "id, display_name, comarca, bio, role, status, must_change_password, directory_visible, created_at";
 
 export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   const supabase = await createClient();

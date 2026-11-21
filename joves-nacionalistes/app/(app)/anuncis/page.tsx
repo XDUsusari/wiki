@@ -3,7 +3,7 @@ import { requireMember } from "@/lib/auth";
 import { formatDate } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Notícies" };
+export const metadata = { title: "Taulell d'anuncis" };
 
 export default async function NewsPage() {
   await requireMember();
@@ -17,14 +17,14 @@ export default async function NewsPage() {
 
   return (
     <div>
-      <h1>Notícies i avisos</h1>
+      <h1>Taulell d'anuncis</h1>
       {posts?.length ? posts.map((p) => (
         <article key={p.id} className="card">
           <div className="row">
             {p.pinned && <span className="badge">Fixat</span>}
             {p.kind === "avis" && <span className="badge accent">Avís</span>}
           </div>
-          <h3><Link href={`/noticies/${p.id}`}>{p.title}</Link></h3>
+          <h3><Link href={`/anuncis/${p.id}`}>{p.title}</Link></h3>
           <p className="muted">{formatDate(p.created_at)}</p>
           <p>{p.body.length > 240 ? p.body.slice(0, 240) + "…" : p.body}</p>
         </article>

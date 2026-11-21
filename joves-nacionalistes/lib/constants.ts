@@ -25,3 +25,20 @@ export function friendlyError(message: string | undefined) {
   if (message.includes("row-level security")) return "No tens permís per fer això.";
   return message.replace(/^.*?ERROR:\s*/, "").slice(0, 200);
 }
+
+export function initials(name: string) {
+  return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]!.toUpperCase()).join("") || "?";
+}
+
+export function formatRange(startIso: string, endIso: string) {
+  const d = new Intl.DateTimeFormat("ca-ES", { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Madrid" });
+  const t = new Intl.DateTimeFormat("ca-ES", { timeStyle: "short", timeZone: "Europe/Madrid" });
+  return `${d.format(new Date(startIso))} · ${t.format(new Date(startIso))}–${t.format(new Date(endIso))}`;
+}
+
+export function formatDay(isoDate: string) {
+  return new Intl.DateTimeFormat("ca-ES", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })
+    .format(new Date(isoDate + "T00:00:00Z"));
+}
+
+export const MUNICIPIS_BARCELONES = ["Barcelona", "L'Hospitalet de Llobregat", "Badalona", "Santa Coloma de Gramenet", "Sant Adrià de Besòs"] as const;

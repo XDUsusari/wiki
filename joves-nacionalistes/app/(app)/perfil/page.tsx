@@ -13,7 +13,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
 
   return (
     <div className="stack" style={{ maxWidth: 600 }}>
-      <h1>El meu perfil</h1>
+      <h1>👤 El meu perfil</h1>
       <Alerts error={error} ok={ok} />
       <p className="muted">{ROLE_LABEL[me.role]} · membre des del {formatDate(me.created_at, false)}</p>
 
@@ -33,6 +33,10 @@ export default async function ProfilePage({ searchParams }: { searchParams: Sear
           <label htmlFor="bio">Sobre mi</label>
           <textarea id="bio" name="bio" defaultValue={me.bio ?? ""} maxLength={500} />
         </div>
+        <label className="check field">
+          <input type="checkbox" name="directory_visible" defaultChecked={me.directory_visible} />
+          <span>Mostrar-me al directori de membres (nom, comarca i «sobre mi»)</span>
+        </label>
         <button type="submit">Desar canvis</button>
       </form>
 

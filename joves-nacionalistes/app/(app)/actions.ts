@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireMember, requireStaff } from "@/lib/auth";
 import { COMARQUES, friendlyError } from "@/lib/constants";
 import { createAdminClient, createClient } from "@/lib/supabase/server";
+import { toIso } from "@/lib/time";
 
 const str = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
 
@@ -21,7 +22,7 @@ export async function updateProfile(f: FormData) {
   if (comarca && !(COMARQUES as readonly string[]).includes(comarca)) done("/perfil", { error: "Comarca no vàlida." });
   const supabase = await createClient();
   const { error } = await supabase.from("profiles")
-    .update({ display_name: str(f, "display_name"), comarca: comarca || null, bio: str(f, "bio") || null })
+    .update({ display_name: str(f, "display_name"), comarca: comarca || null, bio: str(f, "bio") || null, directory_visible: f.get("directory_visible") === "on" })
     .eq("id", me.id);
   done("/perfil", error ? { error: friendlyError(error.message) } : { ok: "Perfil desat." });
 }
@@ -53,32 +54,11 @@ export async function deletePost(f: FormData) {
   await requireStaff();
   const supabase = await createClient();
   const { error } = await supabase.from("posts").delete().eq("id", str(f, "id"));
-  if (error) done("/noticies", { error: friendlyError(error.message) });
-  done("/noticies", { ok: "Notícia esborrada." });
+  if (error) done("/anuncis", { error: friendlyError(error.message) });
+  done("/anuncis", { ok: "Notícia esborrada." });
 }
 
 // ───────────── Esdeveniments ─────────────
-const madridFmt = new Intl.DateTimeFormat("en-US", {
-  timeZone: "Europe/Madrid", hourCycle: "h23",
-  year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit",
-});
-
-/** Diferència (ms) entre l'hora de Catalunya i UTC en un instant donat. */
-function madridOffset(ms: number) {
-  const p = Object.fromEntries(madridFmt.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
-  const asUtc = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second);
-  return asUtc - Math.floor(ms / 1000) * 1000;
-}
-
-/** L'input datetime-local («2026-05-01T18:30») no porta zona: s'interpreta com a hora de Catalunya. */
-function toIso(local: string) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(local);
-  if (!m) return null;
-  const guess = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
-  let utc = guess - madridOffset(guess);
-  utc = guess - madridOffset(utc); // corregeix canvis d'horari d'estiu
-  return new Date(utc).toISOString();
-}
 
 export async function createEvent(f: FormData) {
   const me = await requireStaff();

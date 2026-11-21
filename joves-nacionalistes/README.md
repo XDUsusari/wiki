@@ -9,6 +9,14 @@ entrades QR, i fòrum per canals amb xat en temps real i moderació.
 
 | Mòdul | Què fa |
 |---|---|
+| Menú lateral | Seccions agrupades (Principal, Participa, Recursos, El meu compte). Al mòbil s'obre amb el botó ☰; a l'ordinador és fix. |
+| Voluntariat i campanyes | Campanyes amb torns, places limitades, apuntar-se/desapuntar-se i qui més hi va. |
+| Mapa del Barcelonès | Mapa amb els límits dels 5 municipis (IGN, CC BY 4.0) i punts: seus, punts de trobada, campanyes i activitats. |
+| Formació | Cursos amb lliçons, progrés personal i barra d'avanç. |
+| Enquestes i consultes | Vot **secret** (ni l'admin pot veure qui ha votat què), resultats agregats quan has votat o la consulta tanca. |
+| Bústia de propostes | Propostes dels membres, suports (▲), estats i resposta pública de la coordinació. |
+| Documents | Fitxers en un emmagatzematge privat; descàrrega amb enllaços temporals de 10 minuts. |
+| Directori | Equip de coordinació amb càrrecs i membres; cerca i filtre per comarca. Cadascú pot amagar-se'n. |
 | Comptes | Registre amb **edat ≥ 18** (validada al formulari, al servidor i a la base de dades), consentiment explícit RGPD, aprovació per un coordinador, rols `membre` / `coordinador` / `admin`, suspensió. |
 | Notícies | Notícies i avisos, fixar a dalt. Només la coordinació publica. |
 | Agenda | Activitats amb aforament, inscripció, **entrada amb codi QR** i validació a la porta. |
@@ -28,7 +36,7 @@ entrades QR, i fòrum per canals amb xat en temps real i moderació.
 ## Posada en marxa
 
 1. Crea un projecte a [supabase.com](https://supabase.com), **a la regió UE** (Frankfurt o Irlanda).
-2. A *SQL Editor*, executa `supabase/migrations/0001_init.sql` i després `0002_access.sql`.
+2. A *SQL Editor*, executa per ordre els fitxers de `supabase/migrations/` (`0001`, `0002` i `0003`).
 3. A *Authentication → Providers → Email*, activa la confirmació de correu.
 4. Copia `.env.example` a `.env.local` i omple les claus (*Project Settings → API*).
 5. A *Authentication → URL Configuration*, posa l'adreça de l'app a *Site URL* i afegeix `https://LA-TEVA-APP/auth/confirm`
@@ -48,6 +56,12 @@ entrades QR, i fòrum per canals amb xat en temps real i moderació.
 - Confirmació del correu en registrar-se (`/auth/confirm`).
 - **Canvi de contrasenya obligatori** per als comptes creats per un administrador (com root); es rebutgen
   contrasenyes de menys de 12 caràcters o que contenen paraules com «root» o «admin».
+
+## Provar-ho en local amb dades de demostració
+
+Cal Docker. Amb `npx supabase start` s'aixeca un Supabase local amb totes les migracions; copia les claus que mostra a
+`.env.local`, executa `npm run seed-demo` i entra amb `laia@demo.local` (admin) o `jordi@demo.local` (membre), contrasenya
+`Demo-Local-2026!`. L'script de demostració es nega a funcionar contra un Supabase que no sigui local.
 
 Desplegament recomanat: Vercel (regió `fra1`) o qualsevol servidor Node 20+.
 

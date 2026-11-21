@@ -24,7 +24,7 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
       <p className="muted">{formatDate(post.created_at)}{author ? ` · ${author}` : ""}</p>
       <div className="prose">{post.body}</div>
       <div className="row spread" style={{ marginTop: 16 }}>
-        <Link href="/noticies">← Totes les notícies</Link>
+        <Link href="/anuncis">← Taulell d'anuncis</Link>
         {isStaff(me) && (
           <form action={deletePost}>
             <input type="hidden" name="id" value={post.id} />

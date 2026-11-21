@@ -10,6 +10,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  outputFileTracingRoot: __dirname,
+  experimental: { serverActions: { bodySizeLimit: "21mb" } },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
