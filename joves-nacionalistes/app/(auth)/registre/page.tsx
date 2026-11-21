@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Alerts, { readAlerts, type SearchParams } from "@/components/Alerts";
+import PasswordInput from "@/components/PasswordInput";
 import { COMARQUES } from "@/lib/constants";
 import { signup } from "../actions";
 
@@ -27,7 +28,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Searc
         </div>
         <div className="field">
           <label htmlFor="password">Contrasenya (mínim 10 caràcters)</label>
-          <input id="password" name="password" type="password" minLength={10} autoComplete="new-password" required />
+          <PasswordInput id="password" name="password" minLength={10} autoComplete="new-password" required />
         </div>
         <div className="field">
           <label htmlFor="birthdate">Data de naixement</label>

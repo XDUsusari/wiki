@@ -6,6 +6,7 @@ export const metadata = { title: "Pendent d'aprovació" };
 export default async function PendingPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
+  if (profile.must_change_password) redirect("/canviar-contrasenya");
   if (profile.status === "actiu") redirect("/inici");
 
   return (

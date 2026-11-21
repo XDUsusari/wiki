@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Alerts, { readAlerts, type SearchParams } from "@/components/Alerts";
+import PasswordInput from "@/components/PasswordInput";
 import { login } from "../actions";
 
 export const metadata = { title: "Entrar" };
@@ -18,9 +19,12 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
         </div>
         <div className="field">
           <label htmlFor="password">Contrasenya</label>
-          <input id="password" name="password" type="password" autoComplete="current-password" required />
+          <PasswordInput id="password" name="password" autoComplete="current-password" required />
         </div>
-        <button type="submit">Entrar</button>
+        <div className="row spread">
+          <button type="submit">Entrar</button>
+          <Link href="/recuperar">Has oblidat la contrasenya?</Link>
+        </div>
       </form>
       <p className="muted">Encara no tens compte? <Link href="/registre">Sol·licita l&apos;accés</Link></p>
     </main>

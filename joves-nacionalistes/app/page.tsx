@@ -5,7 +5,7 @@ import { APP_NAME } from "@/lib/constants";
 
 export default async function Landing() {
   const profile = await getCurrentProfile();
-  if (profile) redirect(profile.status === "actiu" ? "/inici" : "/pendent");
+  if (profile) redirect(profile.must_change_password ? "/canviar-contrasenya" : profile.status === "actiu" ? "/inici" : "/pendent");
 
   return (
     <main className="container">

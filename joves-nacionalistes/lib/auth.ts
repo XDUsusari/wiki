@@ -13,10 +13,11 @@ export type Profile = {
   bio: string | null;
   role: Role;
   status: Status;
+  must_change_password: boolean;
   created_at: string;
 };
 
-export const PROFILE_COLUMNS = "id, display_name, comarca, bio, role, status, created_at";
+export const PROFILE_COLUMNS = "id, display_name, comarca, bio, role, status, must_change_password, created_at";
 
 export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   const supabase = await createClient();
@@ -32,6 +33,7 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
 export async function requireMember(): Promise<Profile> {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
+  if (profile.must_change_password) redirect("/canviar-contrasenya");
   if (profile.status !== "actiu") redirect("/pendent");
   return profile;
 }

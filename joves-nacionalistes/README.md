@@ -1,6 +1,6 @@
 # Joves Nacionalistes · Intranet
 
-Web app instal·lable (PWA) per a joves membres: comptes amb aprovació, notícies i avisos, agenda amb inscripcions i
+Web app instal·lable (PWA), en mode clar, per a joves membres: comptes amb aprovació, notícies i avisos, agenda amb inscripcions i
 entrades QR, i fòrum per canals amb xat en temps real i moderació.
 
 **Tecnologia:** Next.js 15 (App Router, Server Actions) · Supabase (Auth, Postgres amb RLS, Realtime) · TypeScript.
@@ -28,15 +28,26 @@ entrades QR, i fòrum per canals amb xat en temps real i moderació.
 ## Posada en marxa
 
 1. Crea un projecte a [supabase.com](https://supabase.com), **a la regió UE** (Frankfurt o Irlanda).
-2. A *SQL Editor*, executa `supabase/migrations/0001_init.sql`.
+2. A *SQL Editor*, executa `supabase/migrations/0001_init.sql` i després `0002_access.sql`.
 3. A *Authentication → Providers → Email*, activa la confirmació de correu.
 4. Copia `.env.example` a `.env.local` i omple les claus (*Project Settings → API*).
-5. `npm install` i després `npm run dev`. L'app s'obre a http://localhost:3000.
-6. Registra't i converteix el teu usuari en el primer administrador des del *SQL Editor*:
-   ```sql
-   update public.profiles set role = 'admin', status = 'actiu'
-   where id = (select id from auth.users where email = 'el-teu@correu.cat');
+5. A *Authentication → URL Configuration*, posa l'adreça de l'app a *Site URL* i afegeix `https://LA-TEVA-APP/auth/confirm`
+   a *Redirect URLs*.
+6. `npm install` i després crea el compte d'administrador principal:
+   ```bash
+   npm run create-root
    ```
+   L'script crea l'usuari **root** (amb el correu de `ROOT_EMAIL`) com a admin actiu, amb una contrasenya temporal
+   aleatòria que mostra per pantalla una sola vegada. El primer cop que s'entra, l'app **obliga a canviar-la**.
+7. `npm run dev`. L'app s'obre a http://localhost:3000.
+
+## Accés
+
+- Entrada amb correu i contrasenya, amb botó per **mostrar/amagar** la contrasenya.
+- **Recuperació de contrasenya** per correu (`/recuperar`), sense revelar si un correu està registrat.
+- Confirmació del correu en registrar-se (`/auth/confirm`).
+- **Canvi de contrasenya obligatori** per als comptes creats per un administrador (com root); es rebutgen
+  contrasenyes de menys de 12 caràcters o que contenen paraules com «root» o «admin».
 
 Desplegament recomanat: Vercel (regió `fra1`) o qualsevol servidor Node 20+.
 
