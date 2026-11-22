@@ -1,0 +1,29 @@
+# Requires the e2e visitor account (see e2e/global-setup.ts) on the target backend.
+appId: cat.dinsdelparc.app.preview
+env:
+  EMAIL: visitor@e2e.dinsdelparc.test
+  PASSWORD: Visitor-e2e-2026
+---
+- launchApp
+- tapOn: "Perfil"
+- tapOn: "Inicia sessió"
+- tapOn: "Correu electrònic"
+- inputText: ${EMAIL}
+- tapOn: "Contrasenya"
+- inputText: ${PASSWORD}
+- tapOn:
+    text: "Inicia sessió"
+    index: 1
+- assertVisible: "@e2e_visitor"
+- tapOn: "Inici"
+- tapOn: "Planifica la teva visita"
+- tapOn: "Nou pla"
+- tapOn: "Nom del pla"
+- inputText: "Pla Maestro"
+- tapOn: "Desa"
+- assertVisible: "Pla Maestro"
+- tapOn: "Afegeix activitats"
+- tapOn: "Dragon Khan"
+- tapOn: "Fet"
+- tapOn: "Marca com a feta"
+- assertVisible: "1 de 1 completades"

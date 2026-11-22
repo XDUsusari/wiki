@@ -1,0 +1,59 @@
+name: DinsDelParc CI
+
+on:
+  push:
+    paths: ['dinsdelparc/**', '.github/workflows/dinsdelparc.yml']
+  pull_request:
+    paths: ['dinsdelparc/**', '.github/workflows/dinsdelparc.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: dinsdelparc
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dinsdelparc/package-lock.json
+      - run: npm ci
+      - name: Typecheck (shared, mobile, admin)
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm test
+      - name: Database tests (migrations + RLS + RBAC on PostgreSQL 16)
+        run: bash supabase/tests/run-local.sh
+      - name: Admin production build
+        run: npm run build --workspace @dinsdelparc/admin
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key-not-secret
+      - name: Mobile bundle (Android JS bundle)
+        run: npx expo export --platform android --output-dir dist-check
+        working-directory: dinsdelparc/apps/mobile
+
+  e2e:
+    runs-on: ubuntu-24.04
+    needs: checks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dinsdelparc/package-lock.json
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 3.2.0
+      - run: npx playwright install --with-deps chromium
+      - name: End-to-end (local Supabase + admin + mobile web)
+        run: bash e2e/run-local.sh
