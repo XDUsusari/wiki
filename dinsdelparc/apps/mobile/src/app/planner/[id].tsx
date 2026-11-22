@@ -1,3 +1,4 @@
+import { showAlert } from '../../lib/dialogs';
 import { Ionicons } from '@expo/vector-icons';
 import {
   dbErrorKey,
@@ -11,7 +12,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Button, Card, EmptyState, ErrorState, Pill, Screen, Section, SkeletonList, Text, TextField } from '../../components/ui';
 import { useLiveStatus } from '../../hooks/queries';
 import { useAuth } from '../../hooks/useAuth';
@@ -109,7 +110,7 @@ export default function PlanScreen() {
     try {
       await fn();
     } catch (e) {
-      Alert.alert(t(dbErrorKey((e as Error).message) as TKey));
+      showAlert(t(dbErrorKey((e as Error).message) as TKey));
     }
   };
   const move = (index: number, dir: -1 | 1) => {
@@ -199,7 +200,7 @@ export default function PlanScreen() {
                 const done = items.filter((i) => i.is_completed).map((i) => i.id);
                 await reorderPlanItems(userId!, id, [...done, ...suggestion.steps.map((s) => s.key)]);
                 successFeedback();
-                Alert.alert(t('planner.assistantApplied'));
+                showAlert(t('planner.assistantApplied'));
                 setShowAssistant(false);
               })
             }
@@ -275,7 +276,7 @@ export default function PlanScreen() {
         icon="trash-outline"
         variant="danger"
         onPress={() =>
-          Alert.alert(t('planner.deletePlan'), t('planner.deleteConfirm'), [
+          showAlert(t('planner.deletePlan'), t('planner.deleteConfirm'), [
             { text: t('common.cancel'), style: 'cancel' },
             {
               text: t('common.delete'),

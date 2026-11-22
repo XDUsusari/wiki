@@ -90,7 +90,7 @@ export function AttractionRow({ attraction, wait, accent, onPress }: { attractio
       right={
         <View style={{ alignItems: 'flex-end', gap: 4 }}>
           <WaitBadge wait={wait} compact />
-          {attraction.data_origin !== 'verified' ? <OriginBadge origin={attraction.data_origin} /> : null}
+          {attraction.data_origin !== 'verified' ? <OriginBadge origin={attraction.data_origin} interactive={false} /> : null}
         </View>
       }
     />

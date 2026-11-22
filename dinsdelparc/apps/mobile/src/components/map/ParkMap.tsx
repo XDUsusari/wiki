@@ -1,8 +1,9 @@
+import { showAlert } from '../../lib/dialogs';
 import { Ionicons } from '@expo/vector-icons';
 import { Camera, Map as MapLibreMap, Marker, UserLocation, type CameraRef } from '@maplibre/maplibre-react-native';
 import * as Location from 'expo-location';
 import { useRef } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { useT } from '../../i18n';
 import { env } from '../../lib/env';
 import type { MapPoint } from '../../lib/mapPoints';
@@ -25,7 +26,7 @@ export function ParkMap({ points, center, selected, onSelect }: ParkMapProps) {
 
   const locate = async () => {
     const perm = await Location.requestForegroundPermissionsAsync();
-    if (!perm.granted) return Alert.alert(t('map.myLocation'), t('map.locationDenied'));
+    if (!perm.granted) return showAlert(t('map.myLocation'), t('map.locationDenied'));
     const pos = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
     camera.current?.flyTo({ center: [pos.coords.longitude, pos.coords.latitude], zoom: 17, duration: 800 });
   };

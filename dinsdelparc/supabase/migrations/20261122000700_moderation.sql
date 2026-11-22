@@ -15,7 +15,7 @@ create type public.report_state as enum ('open', 'reviewing', 'resolved', 'dismi
 
 create table public.reports (
   id uuid primary key default gen_random_uuid(),
-  reporter_id uuid references auth.users(id) on delete set null default auth.uid(), -- null = automatic
+  reporter_id uuid references public.profiles(id) on delete set null default auth.uid(), -- null = automatic
   target_type public.report_target not null,
   target_id uuid not null,
   reason public.report_reason not null,

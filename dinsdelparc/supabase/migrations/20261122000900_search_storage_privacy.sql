@@ -238,3 +238,14 @@ revoke execute on function public.achievement_metric(uuid, text) from public, an
 revoke execute on function public.handle_new_user() from public, anon, authenticated;
 revoke execute on function public.user_rank(uuid) from public, anon;
 grant execute on function public.user_rank(uuid) to authenticated;
+
+-- -----------------------------------------------------------------------------
+-- service_role (Edge Functions only, never shipped to clients) needs explicit
+-- privileges because new tables are not auto-exposed.
+-- -----------------------------------------------------------------------------
+grant usage on schema public to service_role;
+grant all on all tables in schema public to service_role;
+grant all on all sequences in schema public to service_role;
+grant execute on all functions in schema public to service_role;
+alter default privileges in schema public grant all on tables to service_role;
+alter default privileges in schema public grant all on sequences to service_role;

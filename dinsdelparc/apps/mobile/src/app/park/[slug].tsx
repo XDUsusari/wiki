@@ -49,7 +49,7 @@ export default function ParkScreen() {
       items.map((v, i) => (
         <View key={v.id}>
           {i > 0 ? <Divider /> : null}
-          <ListRow title={v.name} icon={icon} iconColor={park.accent_color} onPress={() => router.push(`/venue/${kind}/${v.id}`)} right={v.data_origin !== 'verified' ? <OriginBadge origin={v.data_origin} /> : undefined} />
+          <ListRow title={v.name} icon={icon} iconColor={park.accent_color} onPress={() => router.push(`/venue/${kind}/${v.id}`)} right={v.data_origin !== 'verified' ? <OriginBadge origin={v.data_origin} interactive={false} /> : undefined} />
         </View>
       ))
     );

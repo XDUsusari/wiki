@@ -580,6 +580,7 @@ export const en: DictShape<Translations> = {
     signInTitle: 'Administration panel sign-in',
     signInHint: 'Only for team members with an authorised role.',
     notStaff: 'Your account does not have access to the administration panel.',
+    skipToContent: 'Skip to content',
     signOut: 'Sign out',
     loggedAs: 'Signed in as {{name}}',
     nav: {

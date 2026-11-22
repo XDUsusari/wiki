@@ -18,3 +18,7 @@ supabase/.branches/
 *.p12
 *.key
 *.mobileprovision
+dist-web/
+dist-check/
+test-results/
+playwright-report/

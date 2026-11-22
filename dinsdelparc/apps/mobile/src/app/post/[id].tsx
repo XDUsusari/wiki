@@ -1,8 +1,9 @@
+import { showAlert } from '../../lib/dialogs';
 import { commentSchema, dbErrorKey, formatRelativeTime, type TKey } from '@dinsdelparc/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Avatar } from '../../components/Avatar';
 import { PostCard } from '../../components/PostCard';
 import { ReportSheet } from '../../components/ReportSheet';
@@ -40,7 +41,7 @@ export default function PostScreen() {
       void qc.invalidateQueries({ queryKey: ['feed'] });
       router.back();
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
   const removeComment = useMutation({
     mutationFn: (cid: string) => deleteComment(cid),
@@ -61,7 +62,7 @@ export default function PostScreen() {
   };
 
   const confirmDelete = (fn: () => void) =>
-    Alert.alert(t('common.delete'), t('community.deleteConfirm'), [
+    showAlert(t('common.delete'), t('community.deleteConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
       { text: t('common.delete'), style: 'destructive', onPress: fn },
     ]);

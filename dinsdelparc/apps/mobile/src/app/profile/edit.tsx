@@ -1,9 +1,10 @@
+import { showAlert } from '../../lib/dialogs';
 import { checkImage, dbErrorKey, MAX_AVATAR_BYTES, profileSchema, type TKey } from '@dinsdelparc/shared';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar } from '../../components/Avatar';
 import { Button, Chip, Screen, Text, TextField, ToggleRow } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
@@ -37,13 +38,13 @@ export default function EditProfile() {
     const a = res.assets[0];
     const mime = a.mimeType ?? 'image/jpeg';
     const err = checkImage({ mimeType: mime, fileSize: a.fileSize ?? null }, MAX_AVATAR_BYTES);
-    if (err) return Alert.alert(t(err));
+    if (err) return showAlert(t(err));
     setUploading(true);
     try {
       await uploadAvatar(userId, a.uri, mime);
       await refreshProfile();
     } catch (e) {
-      Alert.alert(t(dbErrorKey((e as Error).message) as TKey));
+      showAlert(t(dbErrorKey((e as Error).message) as TKey));
     } finally {
       setUploading(false);
     }
@@ -70,7 +71,7 @@ export default function EditProfile() {
       await refreshProfile();
       void qc.invalidateQueries({ queryKey: ['profile'] });
       successFeedback();
-      Alert.alert(t('profile.saved'));
+      showAlert(t('profile.saved'));
       router.back();
     } catch (e) {
       const key = dbErrorKey((e as Error).message);

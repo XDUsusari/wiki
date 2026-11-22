@@ -1,8 +1,9 @@
+import { showAlert } from '../../../lib/dialogs';
 import { dbErrorKey, forumReplySchema, formatRelativeTime, type TKey } from '@dinsdelparc/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Avatar } from '../../../components/Avatar';
 import { ReportSheet } from '../../../components/ReportSheet';
 import { Button, Card, ErrorState, Pill, Screen, SkeletonList, Text, TextField } from '../../../components/ui';
@@ -119,7 +120,7 @@ export default function TopicScreen() {
                     variant="ghost"
                     size="sm"
                     onPress={() =>
-                      Alert.alert(t('common.delete'), t('community.deleteConfirm'), [
+                      showAlert(t('common.delete'), t('community.deleteConfirm'), [
                         { text: t('common.cancel'), style: 'cancel' },
                         { text: t('common.delete'), style: 'destructive', onPress: () => void deleteReply(r.id).then(refresh) },
                       ])

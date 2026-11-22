@@ -1,7 +1,8 @@
+import { showAlert } from '../lib/dialogs';
 import { REPORT_REASONS, dbErrorKey, type ReportReason, type ReportTarget, type TKey } from '@dinsdelparc/shared';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Alert, Modal, ScrollView, View } from 'react-native';
+import { Modal, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useT } from '../i18n';
 import { createReport } from '../services/reports';
@@ -25,11 +26,11 @@ export function ReportSheet({ visible, onClose, targetType, targetId, defaultRea
   const send = useMutation({
     mutationFn: () => createReport(targetType, targetId, reason, details.trim() || null),
     onSuccess: () => {
-      Alert.alert(t('report.sent'));
+      showAlert(t('report.sent'));
       setDetails('');
       onClose();
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
   const reasons = targetType === 'attraction_info' || targetType === 'park_info' ? (['incorrect_info', 'misinformation', 'other'] as const) : REPORT_REASONS;
   return (

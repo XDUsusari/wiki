@@ -1,8 +1,9 @@
+import { showAlert } from '../../lib/dialogs';
 import { dbErrorKey, itinerarySchema, type TKey } from '@dinsdelparc/shared';
 import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { Button, Chip, Screen, Text, TextField } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { useT } from '../../i18n';
@@ -47,10 +48,10 @@ export default function NewPlan() {
       const { id, result } = await createPlan(userId, parsed.data);
       successFeedback();
       setActive(id);
-      if (result === 'queued') Alert.alert(t('planner.savedOffline'));
+      if (result === 'queued') showAlert(t('planner.savedOffline'));
       router.replace(`/planner/${encodeURIComponent(id)}`);
     } catch (e) {
-      Alert.alert(t(dbErrorKey((e as Error).message) as TKey));
+      showAlert(t(dbErrorKey((e as Error).message) as TKey));
     } finally {
       setSaving(false);
     }

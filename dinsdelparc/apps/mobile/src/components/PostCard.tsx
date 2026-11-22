@@ -1,10 +1,11 @@
+import { showAlert } from '../lib/dialogs';
 import { Ionicons } from '@expo/vector-icons';
 import { dbErrorKey, formatRelativeTime, type ReactionKind, type TKey } from '@dinsdelparc/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, Share, View } from 'react-native';
+import { Pressable, Share, View } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { useT } from '../i18n';
 import { publicStorageUrl } from '../lib/supabase';
@@ -36,12 +37,12 @@ export function PostCard({ post, detail }: { post: FeedPost; detail?: boolean })
       void qc.invalidateQueries({ queryKey: ['feed'] });
       void qc.invalidateQueries({ queryKey: ['post', post.id] });
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   const onReact = (kind: ReactionKind) => {
     if (!userId) return router.push('/auth/sign-in');
-    if (!canParticipate) return Alert.alert(t('profile.verifyEmail'));
+    if (!canParticipate) return showAlert(t('profile.verifyEmail'));
     setPicker(false);
     react.mutate(post.my_reaction === kind ? null : kind);
   };

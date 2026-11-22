@@ -1,7 +1,7 @@
+import { showAlert } from '../lib/dialogs';
 import type { DataOrigin, DisplayWait, InfoSource, OperationalStatus, TKey } from '@dinsdelparc/shared';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, View } from 'react-native';
-import { Alert } from 'react-native';
 import { formatRelativeTime } from '@dinsdelparc/shared';
 import { useT } from '../i18n';
 import { useAppTheme } from '../theme';
@@ -9,7 +9,7 @@ import { Pill } from './ui/Chip';
 import { Text } from './ui/Text';
 
 /** Shows where a piece of data comes from; tapping explains it. */
-export function OriginBadge({ origin }: { origin: DataOrigin }) {
+export function OriginBadge({ origin, interactive = true }: { origin: DataOrigin; interactive?: boolean }) {
   const { colors } = useAppTheme();
   const { t } = useT();
   const map: Record<DataOrigin, { fg: string; bg: string; icon: 'checkmark-circle' | 'time-outline' | 'flask-outline' | 'people-outline'; hint: TKey }> = {
@@ -19,11 +19,13 @@ export function OriginBadge({ origin }: { origin: DataOrigin }) {
     community: { fg: colors.info, bg: colors.infoSoft, icon: 'people-outline', hint: 'origin.communityHint' },
   };
   const m = map[origin];
+  if (!interactive) return <Pill label={t(`origin.${origin}`)} fg={m.fg} bg={m.bg} icon={m.icon} />;
   return (
     <Pressable
+      style={{ alignSelf: 'flex-start' }}
       accessibilityRole="button"
       accessibilityLabel={`${t(`origin.${origin}`)}. ${t(m.hint)}`}
-      onPress={() => Alert.alert(t(`origin.${origin}`), t(m.hint))}
+      onPress={() => showAlert(t(`origin.${origin}`), t(m.hint))}
       hitSlop={8}
     >
       <Pill label={t(`origin.${origin}`)} fg={m.fg} bg={m.bg} icon={m.icon} />

@@ -1,3 +1,4 @@
+import { showAlert } from '../../lib/dialogs';
 import { Ionicons } from '@expo/vector-icons';
 import {
   dbErrorKey,
@@ -13,7 +14,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Modal, Share, View } from 'react-native';
+import { Modal, Share, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AnnouncementCard } from '../../components/AnnouncementCard';
 import { Avatar } from '../../components/Avatar';
@@ -233,7 +234,7 @@ function WaitReportForm({ attraction, disabled, onDone, canReport }: { attractio
     mutationFn: (minutes: number) => submitWaitReport(attraction.id, minutes),
     onSuccess: (r) => {
       successFeedback();
-      Alert.alert(r.status === 'flagged' ? t('attraction.reportWaitFlagged') : t('attraction.reportWaitThanks'));
+      showAlert(r.status === 'flagged' ? t('attraction.reportWaitFlagged') : t('attraction.reportWaitThanks'));
       setOpen(false);
       setValue('');
       onDone();
@@ -250,8 +251,8 @@ function WaitReportForm({ attraction, disabled, onDone, canReport }: { attractio
         variant="secondary"
         onPress={() => {
           if (!userId) return router.push('/auth/sign-in');
-          if (!emailVerified) return Alert.alert(t('profile.verifyEmail'));
-          if (!canReport) return Alert.alert(t('errors.notAllowed'));
+          if (!emailVerified) return showAlert(t('profile.verifyEmail'));
+          if (!canReport) return showAlert(t('errors.notAllowed'));
           setOpen(true);
         }}
       />
@@ -342,7 +343,7 @@ function ReviewsSection({ attraction, canParticipate, onRequireUser }: { attract
       void qc.invalidateQueries({ queryKey: ['reviews', attraction.id] });
       void qc.invalidateQueries({ queryKey: ['attraction', attraction.id] });
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   return (
@@ -377,7 +378,7 @@ function ReviewsSection({ attraction, canParticipate, onRequireUser }: { attract
           variant="secondary"
           onPress={() => {
             if (!onRequireUser()) return;
-            if (!canParticipate) return Alert.alert(t('profile.verifyEmail'));
+            if (!canParticipate) return showAlert(t('profile.verifyEmail'));
             setRating(mine?.rating ?? 0);
             setBody(mine?.body ?? '');
             setEditing(true);
@@ -418,10 +419,10 @@ function PlanPicker({ visible, onClose, attractionId }: { visible: boolean; onCl
     try {
       await addPlanItem(userId!, planId, { item_kind: 'attraction', attraction_id: attractionId, priority: 'want' });
       successFeedback();
-      Alert.alert(t('attraction.addedToPlan', { title }));
+      showAlert(t('attraction.addedToPlan', { title }));
       onClose();
     } catch (e) {
-      Alert.alert(t(dbErrorKey((e as Error).message) as TKey));
+      showAlert(t(dbErrorKey((e as Error).message) as TKey));
     }
   };
   return (

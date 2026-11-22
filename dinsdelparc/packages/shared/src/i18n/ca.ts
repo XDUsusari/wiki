@@ -600,6 +600,7 @@ export const ca = {
     signInTitle: 'Accés al panell d’administració',
     signInHint: 'Només per a membres de l’equip amb un rol autoritzat.',
     notStaff: 'El teu compte no té accés al panell d’administració.',
+    skipToContent: 'Salta al contingut',
     signOut: 'Tanca la sessió',
     loggedAs: 'Sessió iniciada com a {{name}}',
     nav: {

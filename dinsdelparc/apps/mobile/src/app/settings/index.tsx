@@ -1,3 +1,4 @@
+import { showAlert } from '../../lib/dialogs';
 import { dbErrorKey, LANGUAGE_NAMES, LOCALES, type Locale, type TKey } from '@dinsdelparc/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Constants from 'expo-constants';
@@ -5,7 +6,7 @@ import * as FileSystem from 'expo-file-system';
 import { router, Stack } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useEffect, useState } from 'react';
-import { Alert, Platform, Share, View } from 'react-native';
+import { Platform, Share, View } from 'react-native';
 import { Divider, ListRow } from '../../components/Rows';
 import { Button, Card, Chip, Screen, Section, Segmented, Text, TextField, ToggleRow } from '../../components/ui';
 import { usePublicSettings } from '../../hooks/queries';
@@ -38,13 +39,13 @@ export default function Settings() {
   const updatePref = useMutation({
     mutationFn: (patch: Parameters<typeof updatePreferences>[1]) => updatePreferences(userId!, patch),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notification-prefs', userId] }),
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   const togglePush = async (on: boolean) => {
     if (on) {
       const r = await enablePush();
-      if (r !== 'granted') return Alert.alert(t('settings.pushDenied'));
+      if (r !== 'granted') return showAlert(t('settings.pushDenied'));
       await recordConsent(userId!, 'push', true, settings.data?.termsVersion ?? '1');
     } else {
       await disablePush();
@@ -66,17 +67,17 @@ export default function Settings() {
         await Share.share({ message: json });
       }
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   const removeAccount = useMutation({
     mutationFn: deleteMyAccount,
     onSuccess: () => {
       qc.clear();
-      Alert.alert(t('settings.deleted'));
+      showAlert(t('settings.deleted'));
       router.replace('/');
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   const p = prefs.data;

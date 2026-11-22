@@ -11,8 +11,8 @@ export function LogoMark({ size = 36 }: { size?: number }) {
   const arch = size * 0.56;
   return (
     <View
-      accessible
-      accessibilityLabel="DinsDelParc"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
       style={{ width: size, height: size, borderRadius: size * 0.28, backgroundColor: palette.navy900, alignItems: 'center', justifyContent: 'center' }}
     >
       <View
@@ -35,10 +35,14 @@ export function LogoMark({ size = 36 }: { size?: number }) {
 export function Logo({ size = 36 }: { size?: number }) {
   const { colors } = useAppTheme();
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }} accessible accessibilityRole="image" accessibilityLabel="DinsDelParc">
       <LogoMark size={size} />
-      <Text variant="h3" style={{ color: colors.brand, letterSpacing: -0.3 }} accessibilityElementsHidden>
-        Dins<Text variant="h3" style={{ color: colors.interactive }}>Del</Text>Parc
+      <Text variant="h3" accessibilityRole="none" style={{ color: colors.brand, letterSpacing: -0.3 }}>
+        Dins
+        <Text variant="h3" accessibilityRole="none" style={{ color: colors.interactive }}>
+          Del
+        </Text>
+        Parc
       </Text>
     </View>
   );

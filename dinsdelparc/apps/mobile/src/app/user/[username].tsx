@@ -1,8 +1,9 @@
+import { showAlert } from '../../lib/dialogs';
 import { dbErrorKey, type AppRole, type TKey } from '@dinsdelparc/shared';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { AchievementsList, BadgesRow } from '../../components/AchievementsList';
 import { PostCard } from '../../components/PostCard';
 import { ProfileHeader } from '../../components/ProfileHeader';
@@ -58,7 +59,7 @@ export default function PublicProfile() {
       void qc.invalidateQueries({ queryKey: ['profile', username] });
       void qc.invalidateQueries({ queryKey: ['feed'] });
     },
-    onError: (e) => Alert.alert(t(dbErrorKey((e as Error).message) as TKey)),
+    onError: (e) => showAlert(t(dbErrorKey((e as Error).message) as TKey)),
   });
 
   if (profile.isLoading) return <Screen edges={[]}><SkeletonList rows={3} height={100} /></Screen>;
@@ -88,7 +89,7 @@ export default function PublicProfile() {
             onPress={() =>
               rel.data?.blocked
                 ? action.mutate('unblock')
-                : Alert.alert(t('profile.block'), t('profile.blockConfirm'), [
+                : showAlert(t('profile.block'), t('profile.blockConfirm'), [
                     { text: t('common.cancel'), style: 'cancel' },
                     { text: t('profile.block'), style: 'destructive', onPress: () => action.mutate('block') },
                   ])

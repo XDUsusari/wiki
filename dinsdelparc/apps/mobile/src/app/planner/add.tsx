@@ -1,8 +1,9 @@
+import { showAlert } from '../../lib/dialogs';
 import { normalizeText, type ItemPriority } from '@dinsdelparc/shared';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { Divider, ListRow } from '../../components/Rows';
 import { Button, Card, Chip, Screen, Segmented, Text, TextField } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
@@ -51,9 +52,9 @@ export default function AddItems() {
         priority,
       });
       successFeedback();
-      Alert.alert(t('attraction.addedToPlan', { title: current?.plan.title ?? name }));
+      showAlert(t('attraction.addedToPlan', { title: current?.plan.title ?? name }));
     } catch (e) {
-      Alert.alert(String((e as Error).message));
+      showAlert(String((e as Error).message));
     }
   };
 

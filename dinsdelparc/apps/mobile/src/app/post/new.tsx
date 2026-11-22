@@ -1,3 +1,4 @@
+import { showAlert } from '../../lib/dialogs';
 import { Ionicons } from '@expo/vector-icons';
 import {
   checkImage,
@@ -14,7 +15,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Button, Card, Chip, Screen, Text, TextField } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { useT } from '../../i18n';
@@ -38,7 +39,7 @@ export default function NewPost() {
     onSuccess: (post) => {
       successFeedback();
       void qc.invalidateQueries({ queryKey: ['feed'] });
-      if (post.moderation_status === 'pending_review') Alert.alert(t('community.pendingReview'));
+      if (post.moderation_status === 'pending_review') showAlert(t('community.pendingReview'));
       router.replace(`/post/${post.id}`);
     },
     onError: (e) => setError(t(dbErrorKey((e as Error).message) as TKey)),
@@ -67,7 +68,7 @@ export default function NewPost() {
       const mime = a.mimeType ?? (a.uri.endsWith('.png') ? 'image/png' : 'image/jpeg');
       const err = checkImage({ mimeType: mime, fileSize: a.fileSize ?? null }, MAX_POST_IMAGE_BYTES);
       if (err) {
-        Alert.alert(t(err));
+        showAlert(t(err));
         continue;
       }
       accepted.push({ uri: a.uri, mimeType: mime, width: a.width, height: a.height });

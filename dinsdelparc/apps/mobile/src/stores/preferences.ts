@@ -1,16 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DEFAULT_LOCALE, isLocale, type Locale } from '@dinsdelparc/shared';
-import { getLocales } from 'expo-localization';
+import { DEFAULT_LOCALE, type Locale } from '@dinsdelparc/shared';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
-/** Catalan is the default; Spanish/English are used if the device prefers them. */
-function deviceLocale(): Locale {
-  const code = getLocales()[0]?.languageCode ?? DEFAULT_LOCALE;
-  return isLocale(code) ? code : DEFAULT_LOCALE;
-}
 
 interface PreferencesState {
   locale: Locale;
@@ -27,7 +21,8 @@ interface PreferencesState {
 export const usePreferences = create<PreferencesState>()(
   persist(
     (set) => ({
-      locale: deviceLocale(),
+      // Catalan is always the initial language; users can switch on the first onboarding screen.
+      locale: DEFAULT_LOCALE as Locale,
       theme: 'system',
       onboardingDone: false,
       activePlanId: null,
