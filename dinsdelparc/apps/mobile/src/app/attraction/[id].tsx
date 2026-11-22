@@ -91,10 +91,8 @@ export default function AttractionScreen() {
       <Section title={t('attraction.waitNow')}>
         <Card>
           <View style={{ gap: spacing.md }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: spacing.md }}>
-              <StatusPill status={wait.status} />
-              <WaitBadge wait={wait} />
-            </View>
+            {wait.status !== 'unknown' || wait.kind !== 'wait' ? <StatusPill status={wait.status} /> : null}
+            {wait.kind === 'wait' ? <WaitBadge wait={wait} /> : null}
             {wait.kind === 'wait' ? (
               <Text variant="caption" tone="muted">
                 {t('reliability.reports', { count: wait.sampleSize })}

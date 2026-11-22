@@ -1,0 +1,16 @@
+# Native E2E (Android/iOS dev or preview build). Run: maestro test apps/mobile/maestro
+appId: cat.dinsdelparc.app.preview
+---
+- launchApp:
+    clearState: true
+- tapOn: "Omet"
+- assertVisible: "Estat dels parcs"
+- assertVisible: "Horari no verificat per avui"
+- tapOn: "Parcs"
+- tapOn: "PortAventura Park"
+- scrollUntilVisible:
+    element: "Dragon Khan"
+- tapOn: "Dragon Khan"
+- assertVisible: "Encara no hi ha dades de seguretat verificades per a aquesta atracció."
+- tapOn: "Mapa"
+- assertVisible: "Els punts només apareixen quan l’equip de DinsDelParc n’ha introduït la ubicació.*"

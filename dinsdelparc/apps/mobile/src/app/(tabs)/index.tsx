@@ -158,7 +158,13 @@ export default function Home() {
             </Text>
           ) : (
             currentWaits.map(({ a, w }) => (
-              <ListRow key={a.id} title={a.name} onPress={() => router.push(`/attraction/${a.id}`)} right={<WaitBadge wait={w} />} />
+              <ListRow
+                key={a.id}
+                title={a.name}
+                subtitle={`${t(`source.${w.source ?? 'community'}`)}${w.reliability ? ` · ${t(`reliability.${w.reliability}`)}` : ''}${w.updatedAt ? ` · ${formatRelativeTime(w.updatedAt, locale)}` : ''}`}
+                onPress={() => router.push(`/attraction/${a.id}`)}
+                right={<WaitBadge wait={w} compact />}
+              />
             ))
           )}
         </Card>
