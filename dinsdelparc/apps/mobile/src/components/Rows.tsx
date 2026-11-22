@@ -10,9 +10,10 @@ import { OriginBadge, WaitBadge } from './Badges';
 import type { IconName } from './ui/Button';
 import { Text } from './ui/Text';
 
-export function ListRow({ title, subtitle, icon, iconColor, right, onPress, accessibilityHint }: {
+export function ListRow({ title, subtitle, icon, iconColor, right, below, onPress, accessibilityHint }: {
   title: string;
   subtitle?: string | null;
+  below?: ReactNode;
   icon?: IconName;
   iconColor?: string;
   right?: ReactNode;
@@ -36,8 +37,9 @@ export function ListRow({ title, subtitle, icon, iconColor, right, onPress, acce
             {subtitle}
           </Text>
         ) : null}
+        {below}
       </View>
-      {right}
+      {right ? <View style={{ flexShrink: 0, maxWidth: '45%' }}>{right}</View> : null}
       {onPress ? <Ionicons name="chevron-forward" size={18} color={colors.textMuted} /> : null}
     </View>
   );
@@ -87,12 +89,8 @@ export function AttractionRow({ attraction, wait, accent, onPress }: { attractio
       icon={ATTRACTION_ICON[attraction.attraction_type]}
       iconColor={accent}
       onPress={onPress}
-      right={
-        <View style={{ alignItems: 'flex-end', gap: 4 }}>
-          <WaitBadge wait={wait} compact />
-          {attraction.data_origin !== 'verified' ? <OriginBadge origin={attraction.data_origin} interactive={false} /> : null}
-        </View>
-      }
+      right={<WaitBadge wait={wait} compact />}
+      below={attraction.data_origin !== 'verified' ? <OriginBadge origin={attraction.data_origin} interactive={false} /> : null}
     />
   );
 }
