@@ -1,0 +1,19 @@
+{
+  "name": "dinsdelparc",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DinsDelParc — plataforma independent per a visitants i aficionats de PortAventura World (no oficial).",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:db": "bash supabase/tests/run-local.sh",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}
