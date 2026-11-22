@@ -222,6 +222,7 @@ export const en: DictShape<Translations> = {
     noPoints: 'No points published for this filter yet.',
     nativeOnly: 'The interactive map is available in the Android and iOS app.',
     openDetails: 'View details',
+    list: 'List',
   },
   planner: {
     title: 'Planner',

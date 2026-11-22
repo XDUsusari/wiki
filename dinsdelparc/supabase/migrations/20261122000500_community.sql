@@ -16,7 +16,7 @@ create table public.notifications (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   type public.notification_type not null,
-  actor_id uuid references auth.users(id) on delete cascade,
+  actor_id uuid references public.profiles(id) on delete cascade,
   entity_type text check (entity_type in ('post', 'comment', 'forum_topic', 'forum_reply', 'profile', 'attraction',
                                           'park', 'announcement', 'itinerary', 'achievement', 'badge', 'report')),
   entity_id uuid,
@@ -172,7 +172,7 @@ create type public.post_category as enum (
 
 create table public.posts (
   id uuid primary key default gen_random_uuid(),
-  author_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
+  author_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   category public.post_category not null,
   body text not null check (length(trim(body)) between 1 and 5000),
   park_id uuid references public.parks(id) on delete set null,
@@ -207,7 +207,7 @@ create table public.post_images (
 create table public.comments (
   id uuid primary key default gen_random_uuid(),
   post_id uuid not null references public.posts(id) on delete cascade,
-  author_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
+  author_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   parent_id uuid references public.comments(id) on delete cascade,
   body text not null check (length(trim(body)) between 1 and 2000),
   moderation_status public.moderation_status not null default 'visible',
@@ -228,8 +228,8 @@ create table public.reactions (
 );
 
 create table public.follows (
-  follower_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
-  following_id uuid not null references auth.users(id) on delete cascade,
+  follower_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
+  following_id uuid not null references public.profiles(id) on delete cascade,
   created_at timestamptz not null default now(),
   primary key (follower_id, following_id),
   check (follower_id <> following_id)

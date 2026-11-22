@@ -242,6 +242,7 @@ export const ca = {
     noPoints: 'Encara no hi ha punts publicats per a aquest filtre.',
     nativeOnly: 'El mapa interactiu està disponible a l’aplicació per a Android i iOS.',
     openDetails: 'Veure la fitxa',
+    list: 'Llista',
   },
   planner: {
     title: 'Planificador',

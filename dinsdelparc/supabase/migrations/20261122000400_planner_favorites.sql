@@ -111,7 +111,7 @@ create unique index favorites_unique_shop on public.favorites(user_id, shop_id) 
 create table public.attraction_reviews (
   id uuid primary key default gen_random_uuid(),
   attraction_id uuid not null references public.attractions(id) on delete cascade,
-  user_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
+  user_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   rating smallint not null check (rating between 1 and 5),
   body text check (length(trim(body)) between 1 and 2000),
   moderation_status public.moderation_status not null default 'visible',

@@ -19,7 +19,7 @@ create table public.forum_categories (
 create table public.forum_topics (
   id uuid primary key default gen_random_uuid(),
   category_id uuid not null references public.forum_categories(id) on delete restrict,
-  author_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
+  author_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   title text not null check (length(trim(title)) between 5 and 140),
   body text not null check (length(trim(body)) between 1 and 10000),
   is_pinned boolean not null default false,
@@ -39,7 +39,7 @@ create index forum_topics_search_trgm on public.forum_topics using gin (search_t
 create table public.forum_replies (
   id uuid primary key default gen_random_uuid(),
   topic_id uuid not null references public.forum_topics(id) on delete cascade,
-  author_id uuid not null references auth.users(id) on delete cascade default auth.uid(),
+  author_id uuid not null references public.profiles(id) on delete cascade default auth.uid(),
   quoted_reply_id uuid references public.forum_replies(id) on delete set null,
   body text not null check (length(trim(body)) between 1 and 10000),
   moderation_status public.moderation_status not null default 'visible',

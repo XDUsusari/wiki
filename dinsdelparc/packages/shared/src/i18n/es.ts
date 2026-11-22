@@ -222,6 +222,7 @@ export const es: DictShape<Translations> = {
     noPoints: 'Todavía no hay puntos publicados para este filtro.',
     nativeOnly: 'El mapa interactivo está disponible en la aplicación para Android e iOS.',
     openDetails: 'Ver la ficha',
+    list: 'Lista',
   },
   planner: {
     title: 'Planificador',
